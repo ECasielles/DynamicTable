@@ -21,23 +21,22 @@ import android.widget.TextView;
 public class DynamicTable_Activity extends AppCompatActivity {
 
     private TableLayout mTblHead, mTblBody;
-    private TableRow.LayoutParams mTbrLayoutId, mTbrLayoutName, mTbrLayout;
+    private TableRow.LayoutParams mTbrLayoutId, mTbrLayoutName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dynamic_table_);
-        mTblBody = (TableLayout) findViewById(R.id.tblBody);
         mTblHead = (TableLayout) findViewById(R.id.tblHead);
+        mTblBody = (TableLayout) findViewById(R.id.tblBody);
 
-        // 100 es el tamaño por defecto en dp que le damos
+        // 100 es el ancho por defecto en dp que le damos al id
         // Queremos que el nombre se expanda y no el id
         // Márgenes mínimos para casi cualquier dispositivo
         mTbrLayoutId = new TableRow.LayoutParams(100, TableRow.LayoutParams.WRAP_CONTENT);
         mTbrLayoutId.setMargins(0,10,0,10);
         mTbrLayoutName = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
         mTbrLayoutName.setMargins(0,10,0,10);
-        mTbrLayout = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         createHeader();
         createBody();
@@ -45,7 +44,6 @@ public class DynamicTable_Activity extends AppCompatActivity {
 
     private void createHeader() {
         TableRow mTbrHead = new TableRow(this);
-        mTbrHead.setLayoutParams(mTbrLayout);
 
         // Ponemos el texto
         TextView mTxvId = new TextView(this);
@@ -74,7 +72,6 @@ public class DynamicTable_Activity extends AppCompatActivity {
 
         for (int i = 0; i < mNameList.length; i++){
 
-
             // Lleno el texto ID
             mTxvId = new TextView(this);
             mTxvId.setText(" " + String.valueOf(i + 1) + " ");
@@ -83,7 +80,7 @@ public class DynamicTable_Activity extends AppCompatActivity {
             // Lleno el texto NAME
             mTxvName = new TextView(this);
             mTxvName.setText(mNameList[i]);
-            mTxvId.setLayoutParams(mTbrLayoutName);
+            mTxvName.setLayoutParams(mTbrLayoutName);
 
             // Le damos shape
             mTxvId.setBackgroundResource(R.drawable.shapebody);
@@ -91,7 +88,6 @@ public class DynamicTable_Activity extends AppCompatActivity {
 
             // Creo la fila
             mTbrBody = new TableRow(this);
-            mTbrBody.setLayoutParams(mTbrLayout);
 
             mTbrBody.addView(mTxvId);
             mTbrBody.addView(mTxvName);
