@@ -8,10 +8,20 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+/**
+ * @author ECasielles
+ * @version 1.0
+ * Shows how to create components at runtime
+ * Resources used:
+ *  -LayoutParams
+ *  -Shape
+ *  -Color
+ *  -String-array
+ */
 public class DynamicTable_Activity extends AppCompatActivity {
 
     private TableLayout mTblHead, mTblBody;
-    private TableRow.LayoutParams mTbrLayoutId, mTbrLayoutName;
+    private TableRow.LayoutParams mTbrLayoutId, mTbrLayoutName, mTbrLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +32,12 @@ public class DynamicTable_Activity extends AppCompatActivity {
 
         // 100 es el tamaño por defecto en dp que le damos
         // Queremos que el nombre se expanda y no el id
-        mTbrLayoutId = new TableRow.LayoutParams(100, TableRow.LayoutParams.WRAP_CONTENT);
         // Márgenes mínimos para casi cualquier dispositivo
+        mTbrLayoutId = new TableRow.LayoutParams(100, TableRow.LayoutParams.WRAP_CONTENT);
         mTbrLayoutId.setMargins(0,10,0,10);
-        mTbrLayoutName = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.MATCH_PARENT);
+        mTbrLayoutName = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
+        mTbrLayoutName.setMargins(0,10,0,10);
+        mTbrLayout = new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
 
         createHeader();
         createBody();
@@ -33,16 +45,19 @@ public class DynamicTable_Activity extends AppCompatActivity {
 
     private void createHeader() {
         TableRow mTbrHead = new TableRow(this);
+        mTbrHead.setLayoutParams(mTbrLayout);
 
         // Ponemos el texto
         TextView mTxvId = new TextView(this);
         mTxvId.setText(R.string.txvId);
         mTxvId.setLayoutParams(mTbrLayoutId);
+        mTxvId.setBackgroundResource(R.drawable.shapehead);
         mTbrHead.addView(mTxvId);
 
         TextView mTxvName = new TextView(this);
         mTxvName.setText(R.string.txvName);
         mTxvName.setLayoutParams(mTbrLayoutName);
+        mTxvName.setBackgroundResource(R.drawable.shapehead);
         mTbrHead.addView(mTxvName);
 
         // Metemos la fila de la tabla en la plantilla
@@ -53,16 +68,36 @@ public class DynamicTable_Activity extends AppCompatActivity {
         TableRow mTbrBody;
 
         // Ponemos el texto
-        TextView mTxvId = new TextView(this);
-        TextView mTxvName = new TextView(this);
+        TextView mTxvId, mTxvName;
 
         String[] mNameList = getResources().getStringArray(R.array.nameList);
 
         for (int i = 0; i < mNameList.length; i++){
+
+
+            // Lleno el texto ID
+            mTxvId = new TextView(this);
+            mTxvId.setText(" " + String.valueOf(i + 1) + " ");
+            mTxvId.setLayoutParams(mTbrLayoutId);
+
+            // Lleno el texto NAME
+            mTxvName = new TextView(this);
+            mTxvName.setText(mNameList[i]);
+            mTxvId.setLayoutParams(mTbrLayoutName);
+
+            // Le damos shape
+            mTxvId.setBackgroundResource(R.drawable.shapebody);
+            mTxvName.setBackgroundResource(R.drawable.shapebody);
+
+            // Creo la fila
             mTbrBody = new TableRow(this);
+            mTbrBody.setLayoutParams(mTbrLayout);
+
+            mTbrBody.addView(mTxvId);
+            mTbrBody.addView(mTxvName);
+
+            // Añado la fila a la tabla
+            mTblBody.addView(mTbrBody);
         }
-        // Terminar
     }
-
-
 }
